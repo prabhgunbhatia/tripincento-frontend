@@ -1,0 +1,846 @@
+/* Global Styles */
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@300;400;700&display=swap');
+
+/* Global Styles */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f9;
+    color: #333;
+    scroll-behavior: smooth;
+}
+
+.container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #0056a4;
+    margin-bottom: 1.5rem;
+}
+a {
+    text-decoration: none;
+    color: blue; 
+}
+
+
+.hidden { display: none; } 
+
+#signup { display: none; }
+
+
+/* Header */
+.main-header {
+    background-color: rgba(0, 86, 164, 0.8); /* Brampton blue */
+    backdrop-filter: blur(12px);
+    padding: 1rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.error-message {
+    color: red;
+}
+.main-header .logo {
+    display: flex;
+    align-items: center;
+}
+.main-header .logo img {
+    width: auto; /* Maintain aspect ratio */
+    max-width: 120px; /* Maximum width of logo */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 100px;
+    margin-right: 10px;
+    
+}
+.main-header.scrolled {
+    background-color: #003a75;
+    transform: translateY(0);
+}
+
+.main-header .logo img {
+    width: auto; /* Maintain aspect ratio */
+    max-width: 120px; /* Maximum width of logo */
+    height: auto; /* Maintain aspect ratio */
+}
+.main-header .logo h1 {
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    ;
+}
+
+.main-header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.main-header nav ul li a {
+    color: white;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+
+.main-header nav ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+
+
+.main-header nav ul li .button {
+    background-color: white;
+    color: #003a75;
+    font-weight: 700;
+    padding: 0.5rem 1.5rem;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.main-header nav ul li .button:hover {
+    background-color: #0056a4;
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Hero Section */
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5% 5%;
+    background: linear-gradient(to right, #0056a4, #003a75);
+    color: white;
+    position: relative;
+    overflow: hidden;
+    height: 60vh;
+}
+
+.hero:after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent);
+    mix-blend-mode: overlay;
+    z-index: 1;
+}
+
+.hero-content {
+    max-width: 50%;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    animation: slideIn 1s ease-out forwards;
+    opacity: 0;
+}
+
+.hero-content p {
+    margin-bottom: 2rem;
+    font-size: 1.3rem;
+    opacity: 0;
+    animation: fadeIn 1.5s ease-out forwards;
+}
+
+.cta-button {
+    background-color: #e63946;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    animation: bounceIn 2s ease-out forwards;
+}
+
+.cta-button:hover {
+    background-color: #d62839;
+    transform: scale(1.1);
+}
+
+/* Features Section */
+.features {
+    padding: 5% 5%;
+    background-color: #f8f9fa;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(100px);
+    animation: slideUp 1s ease-out forwards;
+}
+
+.features h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.feature-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.feature {
+    flex: 1;
+    text-align: center;
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature img {
+    width: 60px;
+    margin-bottom: 1rem;
+}
+
+.feature:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Signup Section */
+.signup-section {
+    padding: 5% 5%;
+    background: linear-gradient(to right, #003a75, #0056a4);
+    color: white;
+    display: flex;
+    justify-content: center;
+}
+
+.signup-form {
+    max-width: 400px;
+    width: 100%;
+    background: white;
+    color: #333;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.signup-form h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+
+.signup-form input,
+.signup-form select,
+.signup-form button {
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.signup-form button {
+    background-color: #0056a4;
+    color: white;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.signup-form button:hover {
+    background-color: #003a75;
+    transform: scale(1.05);
+}
+
+.login-section {
+    padding: 5% 5%;
+    background: linear-gradient(to right, #003a75, #0056a4);
+    color: white;
+    display: flex;
+    justify-content: center;
+}
+
+.login-form {
+    max-width: 400px;
+    width: 100%;
+    background: white;
+    color: #333;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.login-form h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+/* Highlight logged-in user's row */
+.highlight {
+    background-color: #f2f2f2; /* Light gray background */
+    font-weight: bold; /* Bold text */
+    border-left: 4px solid #4CAF50; /* Green left border */
+}
+
+/* Optional: Improve table appearance */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.login-form input,
+.login-form select,
+.login-form button {
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 0.9rem;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.login-form button {
+    background-color: #0056a4;
+    color: white;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.login-form button:hover {
+    background-color: #003a75;
+    transform: scale(1.05);
+}
+
+/* Footer */
+.footer {
+    background-color: #003a75;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    font-size: 0.9rem;
+}
+
+
+.trip-section {
+    padding: 5% 5%;
+    background: linear-gradient(to right, #003a75, #0056a4);
+    color: white;
+    display: flex;
+    justify-content: center;
+}
+
+.trip-form {
+    max-width: 400px;
+    width: 100%;
+    background: white;
+    color: #333;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* General container style for the form */
+.container {
+    width: 50%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading style */
+.trip-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: 'Arial', sans-serif;
+    font-size: 24px;
+}
+
+/* Form group styling */
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* Label styling */
+label {
+    font-size: 14px;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Input and select styling */
+.trip-form input[type="time"],
+.trip-form input[type="number"],
+.trip-form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+    box-sizing: border-box;
+}
+
+/* Focus effect for inputs */
+.trip-form input[type="time"]:focus,
+.trip-form input[type="number"]:focus,
+.trip-form select:focus {
+    border-color: #4caf50;
+    outline: none;
+}
+
+/* Button styling */
+.trip-form button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4caf50;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Button hover effect */
+.trip-form button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+
+/* Responsive design */
+@media (max-width: 600px) {
+    .container {
+        width: 90%;
+    }
+}
+
+/* Animations */
+@keyframes slideIn {
+    from {
+        transform: translateX(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes bounceIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
+
+/* Stat Box Styles */
+.stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.stat-title {
+    font-size: 1.2rem;
+    color: #0056a4;
+    font-weight: 600;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    color: #333;
+    font-weight: 700;
+}
+
+/* Recent History Section */
+.recent-history h3 {
+    font-size: 1.8rem;
+    color: #0056a4;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+thead {
+    background-color: #0056a4;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+tbody tr:hover {
+    background-color: #f4f4f9;
+}
+
+tbody tr td {
+    font-size: 1rem;
+    color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .stat {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .stat-value {
+        margin-top: 10px;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    .recent-history h3 {
+        font-size: 1.5rem;
+    }
+}
+
+
+.rewards-section {
+    padding: 5% 5%;
+    text-align: center;
+    background-color: #f8f9fa;
+}
+
+.rewards-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #0056a4;
+}
+
+.rewards-container {
+    display: flex;
+    justify-content: space-between; /* Distributes space evenly between rewards */
+    gap: 20px; /* Adds space between rewards */
+    flex-wrap: nowrap; /* Prevents wrapping to a new line */
+    overflow-x: auto; /* Allows horizontal scrolling if the container is too narrow */
+}
+
+
+.reward {
+    width: 250px;
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+img[src="assets/trophy.png"] {
+    width: 80px; 
+    height: 70px; 
+    display: block;
+    margin: 10px auto;
+}
+
+img[src="assets/medal.png"] {
+    width: 80px; 
+    height: 70px; 
+    display: block;
+    margin: 10px auto;
+}
+
+img[src="assets/clock.png"] {
+    width: 70px; 
+    height: 75px; 
+    display: block;
+    margin: 9px auto;
+}
+
+img[src="assets/sustain-travel.png"] {
+    width: 650px; 
+    height: 415px; 
+    display: block;
+    margin: 9px auto;
+}
+
+.reward img {
+    width: 80px;
+}
+
+.reward h3 {
+    color: #0056a4;
+    margin-bottom: 0.rem;
+    font-size: 1.5rem;
+}
+
+.reward p {
+    font-size: 1rem;
+    color: #333;
+}
+
+.reward.unlocked {
+    background: #e8f5e9; /* Light green for unlocked rewards */
+}
+
+.reward.locked {
+    background: #fce4ec; /* Light pink for locked rewards */
+    filter: grayscale(100%);
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
+.milestones-section {
+    margin-top: 5rem;
+    padding: 5% 5%;
+    background-color: #ffffff;
+}
+
+.milestones-section h2 {
+    font-size: 2.5rem;
+    color: #0056a4;
+    margin-bottom: 2rem;
+}
+
+.milestones-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.milestone {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.milestone:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.milestone-title {
+    font-size: 1.2rem;
+    color: #0056a4;
+    font-weight: 600;
+}
+
+.milestone-progress {
+    flex: 1;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    height: 10px;
+    border-radius: 5px;
+    background-color: #ddd;
+    position: relative;
+    overflow: hidden;
+}
+
+.milestone-progress-bar {
+    width: 50%; /* Change based on progress */
+    height: 100%;
+    background-color: #0056a4;
+    transition: width 0.3s ease;
+}
+
+.milestone-status {
+    font-size: 1rem;
+    color: #333;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #e0e0e0;
+}
+
+th {
+    background-color: #f1f1f1;
+    color: #555;
+    font-weight: bold;
+}
+
+td {
+    color: #333;
+}
+/* Style for the entire Redeem Section */
+.redeem-section {
+    padding: 20px;
+    background-color: #f8f8f8;
+}
+
+/* Redeem Container with Grid Layout */
+.redeem-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns layout */
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Style for each individual Redeem Box */
+.redeem-box {
+    background-color: #fff;
+    padding: 15px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.redeem-box:hover {
+    transform: translateY(-5px);
+}
+
+/* Image in the redeem box */
+.redeem-box img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+/* Header style for each reward */
+.redeem-box h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #0056a4; /* Color matching the h3 headers */
+    font-family: 'Poppins', sans-serif; /* Ensure font matches */
+}
+
+/* Paragraph describing the reward (Increased text size) */
+.redeem-box p {
+    font-size: 16px;  /* Increased font size */
+    color: #555;
+    margin-bottom: 15px;
+}
+
+/* Points required text above the button */
+.points-required {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px; /* Space between points and button */
+    display: block; /* Ensure it takes full width */
+}
+
+/* Button style */
+.redeem-button {
+    padding: 10px 20px;
+    background-color: #0056a4; /* Button background color matches h3 header */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif; /* Font matches h3 headers */
+    letter-spacing: 1px;  /* Increased letter spacing */
+    font-weight: 500;  /* Make the text bold */
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Hover effect for button */
+.redeem-button:hover {
+    background-color: #003f7f; /* Darker shade on hover */
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .redeem-container {
+        grid-template-columns: 1fr; /* Stacks the boxes into a single column */
+    }
+}
+

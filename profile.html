@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Stats - Sustainable Travel App</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<header class="main-header">
+    <div class="logo">
+        <h1><img src="logo.png" alt="logo"></h1>
+        <h1>Tripincento</h1>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="index.html" >Home </a></li>
+            <li><a href="profile.html" class="button">Profile </a></li>
+            <li><a href="rewards.html">Rewards</a></li>
+            <li><a href="leaderboard.html">Leaderboard</a></li>
+            
+            <li><a href="index.html">Log Out</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="container">
+    <h2 id="greeting">Hello, User!</h2> <!-- Personalized greeting -->
+
+    <div class="stat">
+        <div class="stat-title">Total Trips</div>
+        <div class="stat-value" id="total-trips">Loading...</div>
+    </div>
+
+    <div class="stat">
+        <div class="stat-title">Modes of Transport Used</div>
+        <div class="stat-value" id="modes-used">Loading...</div>
+    </div>
+
+    <div class="stat">
+        <div class="stat-title">Emissions Reduced</div>
+        <div class="stat-value" id="emissions-reduced">Loading...</div>
+    </div>
+
+    <div class="stat">
+        <div class="stat-title">Total Points</div>
+        <div class="stat-value" id="total-points">Loading...</div>
+    </div>
+
+    <div class="recent-history">
+        <h3>Recent History</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Duration</th>
+                    <th>Distance Travelled</th>
+                    <th>Points Earned</th>
+                </tr>
+            </thead>
+            <tbody id="recent-history">
+                <!-- Dynamic rows will go here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+// Function to fetch user data from the API
+function fetchUserData() {
+    const authToken = localStorage.getItem('authToken'); // Get the stored token
+    if (!authToken) {
+        // If no token, redirect to login page
+        window.location.href = 'index.html#login';
+        return;
+    }
+
+    // First API call: Fetch trips data
+    axios.get('http://3.17.130.217:3030/user/trips', {
+        headers: {
+            'Authorization': `Bearer ${authToken}`
+        }
+    })
+    .then(function(response) {
+        const userData = response.data;
+
+        // Calculate and display Total Trips
+        const totalTrips = userData.trips.length;
+        document.getElementById('total-trips').textContent = totalTrips || '0';
+
+        // Extract unique modes of transport from fleet_ids
+        const modesUsed = Array.from(new Set(userData.trips.map(trip => trip.fleet_id)));
+        document.getElementById('modes-used').textContent = modesUsed.length || '0';
+
+        // Calculate Emissions Reduced (example: 0.1 kg CO₂ per km)
+        const totalEmissions = userData.trips.reduce((total, trip) => {
+            const distance = parseFloat(trip.distance_travelled) || 0;
+            return total + (distance * 192); // Assuming 0.1 kg CO₂ per km
+        }, 0);
+        document.getElementById('emissions-reduced').textContent = `${totalEmissions.toFixed(2)} g CO₂` || '0';
+
+        // Populate recent history and calculate Total Points
+        const recentHistoryTable = document.getElementById('recent-history');
+        let totalPoints = 0; // Initialize total points
+
+        recentHistoryTable.innerHTML = ''; // Clear existing rows
+
+        // Loop through the first 5 trips to populate the table and calculate points
+        userData.trips.slice(0, 5).forEach(item => {
+            const distance = parseFloat(item.distance_travelled) || 0;
+            const pointsForTrip = Math.round(distance * 5); // Calculate and round points for the current trip
+
+            totalPoints += pointsForTrip; // Add points to the total points
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${new Date(item.start_time).toLocaleDateString()}</td>
+                <td>${item.duration_minutes} min</td>
+                <td>${Math.round(item.distance_travelled)} km</td> <!-- Round distance to nearest integer -->
+                <td>${pointsForTrip}</td>
+            `;
+            recentHistoryTable.appendChild(row);
+        });
+
+        // Update the Total Points section (round total points)
+        document.getElementById('total-points').textContent = Math.round(totalPoints) || '0';
+    })
+    .catch(function(error) {
+        // Handle errors (e.g., invalid token, API issue)
+        console.error('Error fetching trips data:', error);
+        alert('There was an issue loading your profile data. Please try again.');
+    });
+
+    // Second API call: Fetch user profile data
+    axios.get('http://3.17.130.217:3030/user/me', {
+        headers: {
+            'Authorization': `Bearer ${authToken}`
+        }
+    })
+    .then(function(response) {
+        const userProfile = response.data.user;
+        // Use first_name and last_name to greet the user
+        const greeting = `Hello, ${userProfile.first_name} ${userProfile.last_name}!`;
+        document.getElementById('greeting').textContent = greeting;
+    })
+    .catch(function(error) {
+        // Handle errors (e.g., invalid token, API issue)
+        console.error('Error fetching user profile data:', error);
+        alert('There was an issue fetching your profile information. Please try again.');
+    });
+}
+
+// Call the function to fetch user data when the page loads
+fetchUserData();
+
+</script>
+
+</body>
+</html>

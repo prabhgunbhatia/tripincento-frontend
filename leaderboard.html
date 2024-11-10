@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - Sustainable Travel App</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<header class="main-header">
+    <div class="logo">
+        <h1><img src="logo.png" alt="logo"></h1>
+        <h1>Tripincento</h1>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="profile.html">Profile</a></li>
+            <li><a href="rewards.html">Rewards</a></li>
+            <li><a href="leaderboard.html" class="button">Leaderboard</a></li>
+            
+            <li><a href="index.html">Log Out</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="container">
+    <h2>Leaderboard</h2>
+
+    <!-- Display logged-in user's stats and rank -->
+    <div class="user-rank">
+        <h3 id="user-rank">Loading rank...</h3>
+    </div>
+
+    <!-- Top travelers list -->
+    <h3>Top Travelers</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Total Points</th>
+            </tr>
+        </thead>
+        <tbody id="leaderboard">
+            <!-- Top travelers will be dynamically added here -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+// Function to fetch leaderboard data and user stats
+function fetchLeaderboardData() {
+    const authToken = localStorage.getItem('authToken'); // Get the stored token
+    if (!authToken) {
+        // If no token, redirect to login page
+        window.location.href = 'index.html#login';
+        return;
+    }
+
+    // First API call: Fetch top travelers
+    axios.get('http://3.17.130.217:3030/user/top-travelers')
+    .then(function(response) {
+        const topTravelers = response.data.travelers;
+
+        // Populate the leaderboard table
+        const leaderboardTable = document.getElementById('leaderboard');
+        leaderboardTable.innerHTML = ''; // Clear existing rows
+
+        topTravelers.forEach((traveler, index) => {
+            const distanceTraveled = parseFloat(traveler.total_distance) || 0;
+            const totalPoints = Math.round(distanceTraveled * 5)+1; // Calculate total points
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${traveler.username}</td>
+                <td>${traveler.first_name} ${traveler.last_name}</td>
+                <td>${totalPoints}</td>
+            `;
+
+            // Highlight the logged-in user's row
+            const loggedInUser = localStorage.getItem('username'); // Assuming username is stored in localStorage
+            if (traveler.username === loggedInUser) {
+                row.classList.add('highlight'); // Add highlight class
+            }
+
+            leaderboardTable.appendChild(row);
+        });
+
+        // Second API call: Fetch user stats
+        axios.get('http://3.17.130.217:3030/user/me', {
+            headers: {
+                'Authorization': `Bearer ${authToken}`
+            }
+        })
+        .then(function(response) {
+            const userProfile = response.data.user;
+            const userTrips = response.data.trips;
+
+            // Find user's rank in the leaderboard
+            const userRank = topTravelers.findIndex(traveler => traveler.username === userProfile.username) + 1;
+
+            // Update user stats section
+            document.getElementById('user-rank').textContent = `Your Rank: #${userRank || 'N/A'}`;
+        })
+        .catch(function(error) {
+            console.error('Error fetching user profile or leaderboard data:', error);
+            alert('There was an issue loading the leaderboard or your profile data. Please try again.');
+        });
+    })
+    .catch(function(error) {
+        console.error('Error fetching leaderboard data:', error);
+        alert('There was an issue loading the leaderboard data. Please try again.');
+    });
+}
+
+// Call the function to fetch leaderboard data and user stats when the page loads
+fetchLeaderboardData();
+</script>
+
+</body>
+</html>

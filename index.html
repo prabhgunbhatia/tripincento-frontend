@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sustainable Travel Rewards</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="script.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo">
+            <h1><img src="logo.png" alt="logo"></h1>
+            <h1>Tripincento</h1>
+        </div>
+        <nav>
+            <ul id="navbar">
+                <li><a href="index.html" class="button">Home </a></li>
+                <!-- These will be hidden if the user is not logged in -->
+                <li><a href="profile.html" class="nav-item">Profile </a></li>
+                <li><a href="rewards.html" class="nav-item">Rewards</a></li>
+                <li><a href="leaderboard.html" class="nav-item">Leaderboard</a></li>
+                <li><a href="#" id="loginLogoutButton" >Log In</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Travel Sustainably, Earn Rewards</h1>
+            <p>Join our program and earn points by choosing eco-friendly transportation methods. Help reduce emissions and make a difference in Brampton.</p>
+            <a href="#form" class="cta-button">Join Now</a>
+        </div>
+        <div class="hero-image">
+            <img src="assets/sustain-travel.png" alt="Sustainable Travel Illustration">
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <h2>How It Works</h2>
+        <div class="feature-grid">
+            <div class="feature">
+                <img src="assets/icon-bus.png" alt="Bus Icon">
+                <h3>Track Your Trips</h3>
+                <p>Log your trips with Brampton Transit and other sustainable transport modes.</p>
+            </div>
+            <div class="feature">
+                <img src="assets/icon-rewards.png" alt="Rewards Icon">
+                <h3>Earn Points</h3>
+                <p>Earn points for every trip you take using sustainable travel options.</p>
+            </div>
+            <div class="feature">
+                <img src="assets/icon-gift.png" alt="Gift Icon">
+                <h3>Redeem Rewards</h3>
+                <p>Redeem your points for exclusive discounts and offers.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="form"> 
+        <!-- Sign Up Section -->
+        <section id="signup" class="signup-section">
+            <div class="signup-form">
+                <h2>Join the Movement</h2>
+                <form id="signupForm">
+                    <label for="first_name">First Name</label>
+                    <input type="text" id="first_name" name="first_name" placeholder="Enter your first name">
+                    <div id="first_name_error" class="error-message"></div>
+                    
+                    <label for="last_name">Last Name</label>
+                    <input type="text" id="last_name" name="last_name" placeholder="Enter your last name">
+                    <div id="last_name_error" class="error-message"></div>
+
+                    <label for="Username">Username</label>
+                    <input type="text" id="signup_name" name="name" placeholder="Enter your username">
+                    <div id="signup_name_error" class="error-message"></div>
+
+                    <label for="email">Email</label>
+                    <input type="email" id="signup_email" name="email" placeholder="Enter your email">
+                    <div id="signup_email_error" class="error-message"></div>
+
+                    <label for="password">Password</label>
+                    <input type="password" id="signup_password1" name="password1" placeholder="Enter your password">
+                    <div id="signup_password1_error" class="error-message"></div>
+
+                    <label for="password">Retype Password</label>
+                    <input type="password" id="signup_password2" name="password2" placeholder="Retype password">
+                    <div id="signup_password2_error" class="error-message"></div>
+
+                    <button type="submit" class="cta-button">Sign Up</button>
+                </form>
+                <p class="login-link">
+                    Already have an account? <a href="#login" id="loginLink">Log In</a>
+                </p>
+            </div>
+        </section>
+
+        <!-- Log In Section -->
+        <section id="login" class="login-section">
+            <div class="login-form">
+                <h2>Log In</h2>
+                <form id="loginForm">
+                    <label for="username">Email</label>
+                    <input type="text" id="login_username" name="username" placeholder="Enter your username">
+                    
+                    <label for="password">Password</label>
+                    <input type="password" id="login_password" name="login_password" placeholder="Enter your password">
+                
+                    <button type="submit" class="cta-button">Log In</button>
+                </form>
+                
+                <div id="errorMessage" style="color: red; display: none;">
+                    <p>Invalid username or password. Please try again.</p>
+                </div>
+
+                <p class="signup-link">
+                    Don't have an account? <a href="#signup" id="signupLink">Sign Up</a>
+                </p>
+            </div>
+        </section>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2024 Sustainable Travel Rewards. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Check if user is logged in
+        window.onload = function() {
+            const authToken = localStorage.getItem('authToken');
+            const navbar = document.getElementById('navbar');
+            const loginLogoutButton = document.getElementById('loginLogoutButton');
+
+            if (!authToken) {
+                // Hide Profile, Rewards, Leaderboard for non-logged in users
+                const navItems = navbar.querySelectorAll('.nav-item');
+                navItems.forEach(item => item.style.display = 'none');
+                
+                // Change the Log In button to Log Out
+                loginLogoutButton.textContent = 'Log In';
+                loginLogoutButton.addEventListener('click', handleLogin);
+            } else {
+                // Show Profile, Rewards, Leaderboard for logged in users
+                const navItems = navbar.querySelectorAll('.nav-item');
+                navItems.forEach(item => item.style.display = 'inline');
+
+                // Change the Log In button to Log Out
+                loginLogoutButton.textContent = 'Log Out';
+                loginLogoutButton.addEventListener('click', handleLogout);
+
+                const formSection = document.getElementById('form');
+                if (formSection) {
+                    formSection.style.display = 'none';
+                }
+            }
+        };
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const formSection = document.getElementById('form');
+            if (formSection) {
+                formSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function handleLogout(event) {
+            event.preventDefault();
+            localStorage.removeItem('authToken');
+            window.location.reload();
+        }
+
+        // Log In Form
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('login_username').value;
+            const password = document.getElementById('login_password').value;
+
+            const data = { username: username, password: password };
+
+            axios.post('http://3.17.130.217:3030/user/login/', data)
+                .then(function (response) {
+                    localStorage.setItem('authToken', response.data.token);
+
+                    if (response.data.success) {
+                        window.location.href = 'profile.html';
+                    } else {
+                        document.getElementById('errorMessage').style.display = 'block';
+                    }
+                })
+                .catch(function (error) {
+                    document.getElementById('errorMessage').style.display = 'block';
+                });
+        });
+
+        // Sign Up Form
+        document.getElementById('signupForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('signup_name').value;
+            const email = document.getElementById('signup_email').value;
+            const password = document.getElementById('signup_password1').value;
+            const password2 = document.getElementById('signup_password2').value;
+            const first_name = document.getElementById('first_name').value;
+            const last_name = document.getElementById('last_name').value;
+
+            let isValid = true;
+
+            // Clear previous error messages
+            const errorElements = document.querySelectorAll('.error-message');
+            errorElements.forEach(element => element.textContent = '');
+
+            // Validation checks
+            if (first_name === '') {
+                document.getElementById('first_name_error').textContent = 'First name is required.';
+                isValid = false;
+            }
+            if (last_name === '') {
+                document.getElementById('last_name_error').textContent = 'Last name is required.';
+                isValid = false;
+            }
+            if (username === '') {
+                document.getElementById('signup_name_error').textContent = 'Username is required.';
+                isValid = false;
+            }
+            if (email === '') {
+                document.getElementById('signup_email_error').textContent = 'Email is required.';
+                isValid = false;
+            }
+            if (password === '') {
+                document.getElementById('signup_password1_error').textContent = 'Password is required.';
+                isValid = false;
+            }
+            if (password2 !== password) {
+                document.getElementById('signup_password2_error').textContent = 'Passwords do not match.';
+                isValid = false;
+            }
+
+            if (!isValid) {
+                return; // Don't submit if invalid
+            }
+
+            const data = {
+                username: username,
+                email: email,
+                password: password,
+                first_name: first_name,
+                last_name: last_name,
+                password_verify: password2,
+
+            };
+
+            axios.post('http://3.17.130.217:3030/user/signup/', data)
+                .then(function (response) {
+                    if (response.data.success) {
+                        alert('Sign up successful! Please log in.');
+                        window.location.href = 'index.html';
+                    } else {
+                        alert('Sign up failed. Please try again.');
+                    }
+                })
+                .catch(function (error) {
+                    alert('An error occurred. Please try again.');
+                });
+        });
+    </script>
+</body>
+</html>
